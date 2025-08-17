@@ -1,0 +1,2364 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_5401c468a5d94f32a8e3c882f6230d45 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/gh/python-visualization/folium@main/folium/templates/leaflet_heat.min.js"></script>
+</head>
+<body>
+    
+    
+    <div style="position: fixed; 
+                bottom: 50px; left: 50px; width: 200px; height: 120px; 
+                background-color: white; border:2px solid grey; z-index:9999; 
+                font-size:14px; padding: 10px">
+    <b>Amatitlán - Predicciones</b><br>
+    <i class="fa fa-circle" style="color:red"></i> Alto Riesgo (>70%)<br>
+    <i class="fa fa-circle" style="color:orange"></i> Moderado (50-70%)<br>
+    <br><b>Mapa de Calor:</b><br>
+    Azul → Rojo: Baja → Alta probabilidad
+    </div>
+    
+    
+    <h3 align="center" style="font-size:20px; color: #2F4F4F; margin-top:10px;">
+    <b>Predicción de Cianobacteria - Lago Amatitlán</b><br>
+    <span style="font-size:14px;">Datos basados en: 2024-06-29</span>
+    </h3>
+    
+    
+            <div class="folium-map" id="map_5401c468a5d94f32a8e3c882f6230d45" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_5401c468a5d94f32a8e3c882f6230d45 = L.map(
+                "map_5401c468a5d94f32a8e3c882f6230d45",
+                {
+                    center: [14.453073, -90.57549449999999],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_aa9099ab1a09874e8d657194eb2abe65 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_aa9099ab1a09874e8d657194eb2abe65.addTo(map_5401c468a5d94f32a8e3c882f6230d45);
+        
+    
+            var tile_layer_fad9fab17261527d64d6123f91b4ab35 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Esri",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_fad9fab17261527d64d6123f91b4ab35.addTo(map_5401c468a5d94f32a8e3c882f6230d45);
+        
+    
+            var heat_map_4b91bd327465fdf6074b1acc79b4ecd7 = L.heatLayer(
+                [[14.417705684210526, -90.60988009009009, 0.4539262225327667], [14.417705684210526, -90.6064979009009, 0.45846970544078475], [14.417705684210526, -90.57154861261262, 0.4766204975423642], [14.418777421052631, -90.60762529729729, 0.3302407244852328], [14.418777421052631, -90.60424310810811, 0.474317112660102], [14.418777421052631, -90.5738034054054, 0.608838129765909], [14.419849157894737, -90.60198831531531, 0.9963275121965495], [14.420920894736842, -90.6053705045045, 0.985810144807995], [14.420920894736842, -90.60424310810811, 0.995810144807995], [14.420920894736842, -90.60311571171171, 0.9995628126853924], [14.420920894736842, -90.60198831531531, 0.9995628126853924], [14.420920894736842, -90.60086091891891, 0.9995628126853924], [14.420920894736842, -90.59973352252253, 0.9992276492565968], [14.420920894736842, -90.59860612612613, 0.9738581535740406], [14.421992631578947, -90.6053705045045, 0.3717962863128696], [14.421992631578947, -90.60424310810811, 0.9850028032143524], [14.421992631578947, -90.60311571171171, 0.994691934315802], [14.421992631578947, -90.60198831531531, 0.9892276492565968], [14.421992631578947, -90.60086091891891, 0.9992276492565968], [14.421992631578947, -90.59747872972973, 0.9995628126853924], [14.421992631578947, -90.59635133333333, 0.9715608879074678], [14.421992631578947, -90.59522393693693, 0.997170429238074], [14.421992631578947, -90.59409654054053, 0.9900382159070386], [14.421992631578947, -90.59296914414413, 0.9873523471697829], [14.421992631578947, -90.59184174774775, 0.9755538497768709], [14.421992631578947, -90.59071435135135, 0.4736103946672863], [14.423064368421054, -90.6053705045045, 0.9554872575121096], [14.423064368421054, -90.60424310810811, 0.9724372238945952], [14.423064368421054, -90.60311571171171, 0.9951291216304098], [14.423064368421054, -90.60198831531531, 1.0], [14.423064368421054, -90.60086091891891, 1.0], [14.423064368421054, -90.59973352252253, 1.0], [14.423064368421054, -90.59860612612613, 1.0], [14.423064368421054, -90.59522393693693, 1.0], [14.423064368421054, -90.59409654054053, 0.9936649022521622], [14.423064368421054, -90.59296914414413, 0.9873523471697829], [14.423064368421054, -90.59184174774775, 0.9572206992568085], [14.424136105263159, -90.60198831531531, 0.9801690452669231], [14.424136105263159, -90.60086091891891, 0.9689082607140377], [14.424136105263159, -90.59973352252253, 0.9996648365712045], [14.424136105263159, -90.59860612612613, 1.0], [14.424136105263159, -90.59747872972973, 1.0], [14.424136105263159, -90.59635133333333, 1.0], [14.424136105263159, -90.59522393693693, 1.0], [14.424136105263159, -90.59409654054053, 0.98], [14.424136105263159, -90.59296914414413, 0.9984618546919513], [14.424136105263159, -90.59184174774775, 0.9996229129061373], [14.424136105263159, -90.59071435135135, 0.9768941008640053], [14.425207842105264, -90.59973352252253, 0.40457917424780815], [14.425207842105264, -90.59860612612613, 0.9837823346642875], [14.425207842105264, -90.59747872972973, 0.9862577915076131], [14.425207842105264, -90.59635133333333, 1.0], [14.425207842105264, -90.59522393693693, 1.0], [14.425207842105264, -90.59409654054053, 1.0], [14.425207842105264, -90.59296914414413, 1.0], [14.425207842105264, -90.59184174774775, 0.9787202808583781], [14.425207842105264, -90.59071435135135, 0.976230270576599], [14.425207842105264, -90.58958695495495, 0.9785937919888309], [14.42627957894737, -90.59635133333333, 0.9983816246555927], [14.42627957894737, -90.59522393693693, 1.0], [14.42627957894737, -90.59409654054053, 1.0], [14.42627957894737, -90.59296914414413, 1.0], [14.42627957894737, -90.59184174774775, 0.99], [14.42627957894737, -90.59071435135135, 1.0], [14.42627957894737, -90.58958695495495, 1.0], [14.427351315789474, -90.6053705045045, 0.30090504921079936], [14.427351315789474, -90.59747872972973, 0.31882309476398546], [14.427351315789474, -90.59522393693693, 1.0], [14.427351315789474, -90.59409654054053, 0.9875014016071763], [14.427351315789474, -90.59296914414413, 1.0], [14.427351315789474, -90.59184174774775, 1.0], [14.427351315789474, -90.59071435135135, 1.0], [14.427351315789474, -90.58958695495495, 1.0], [14.427351315789474, -90.58845955855855, 0.9997779401750568], [14.427351315789474, -90.58733216216216, 0.9887786128710729], [14.427351315789474, -90.58620476576576, 0.3489926163538209], [14.427351315789474, -90.57944038738738, 0.30418418765704514], [14.42842305263158, -90.6053705045045, 0.4119038254802515], [14.42842305263158, -90.59296914414413, 1.0], [14.42842305263158, -90.59184174774775, 1.0], [14.42842305263158, -90.59071435135135, 1.0], [14.42842305263158, -90.58958695495495, 1.0], [14.42842305263158, -90.58845955855855, 0.9997779401750568], [14.42842305263158, -90.58733216216216, 0.9994427767462614], [14.42842305263158, -90.58394997297297, 0.9643978229327278], [14.42842305263158, -90.58282257657658, 0.9940242793498295], [14.42842305263158, -90.58169518018018, 0.9732245853241435], [14.429494789473685, -90.59296914414413, 1.0], [14.429494789473685, -90.59184174774775, 1.0], [14.429494789473685, -90.59071435135135, 1.0], [14.429494789473685, -90.58958695495495, 0.9996648365712045], [14.429494789473685, -90.58845955855855, 0.9981595648306495], [14.429494789473685, -90.58733216216216, 0.9989639131710697], [14.429494789473685, -90.58394997297297, 0.3317766271342717], [14.429494789473685, -90.58169518018018, 0.9608592150958235], [14.429494789473685, -90.578312990991, 0.3135285843011972], [14.43056652631579, -90.59184174774775, 1.0], [14.43056652631579, -90.59071435135135, 1.0], [14.43056652631579, -90.58958695495495, 0.9996648365712045], [14.43056652631579, -90.58845955855855, 0.9988297839575866], [14.43056652631579, -90.58733216216216, 0.9830957279814351], [14.431638263157895, -90.59071435135135, 0.99], [14.431638263157895, -90.58958695495495, 0.9936085546461997], [14.431638263157895, -90.58845955855855, 0.9935599273398501], [14.43271, -90.58958695495495, 0.9839226561752302], [14.43271, -90.58845955855855, 0.98969178327756], [14.43271, -90.58733216216216, 0.9899464763234785], [14.433781736842105, -90.58733216216216, 0.9779530369458036], [14.43485347368421, -90.58394997297297, 0.3632904204663195], [14.43485347368421, -90.58282257657658, 0.9124092229215681], [14.43485347368421, -90.578312990991, 0.3229352198317269], [14.43699694736842, -90.58394997297297, 0.3428549174964012], [14.43699694736842, -90.58282257657658, 0.33108072919636655], [14.43699694736842, -90.58169518018018, 0.3028022181190249], [14.43699694736842, -90.5738034054054, 0.31088681487621916], [14.438068684210526, -90.58507736936937, 0.4045065626243361], [14.438068684210526, -90.58056778378378, 0.3048654516538675], [14.438068684210526, -90.57944038738738, 0.32426001150483413], [14.438068684210526, -90.578312990991, 0.33805352865205085], [14.438068684210526, -90.5771855945946, 0.3554365619932197], [14.439140421052631, -90.58394997297297, 0.3859839201852067], [14.440212157894736, -90.58394997297297, 0.36475760132271845], [14.441283894736841, -90.58507736936937, 0.30663116270405827], [14.441283894736841, -90.56816642342342, 0.31383175567183424], [14.442355631578947, -90.58394997297297, 0.32733129283597556]],
+                {
+  "minOpacity": 0.3,
+  "maxZoom": 18,
+  "radius": 25,
+  "blur": 15,
+  "gradient": {
+  0.0: "blue",
+  0.3: "cyan",
+  0.5: "yellow",
+  0.7: "orange",
+  1.0: "red",
+},
+}
+            );
+        
+    
+            heat_map_4b91bd327465fdf6074b1acc79b4ecd7.addTo(map_5401c468a5d94f32a8e3c882f6230d45);
+        
+    
+            var feature_group_2bd18e477bbf661c13b20c8c790d0e3e = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_bff766e0bf8c523443a2ed6c8309472a = L.circleMarker(
+                [14.419849157894737, -90.60198831531531],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_1525c7a4843eeb16414598816e665b80 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bc3c8db00a8a5e025089e8a83d22514d = $(`<div id="html_bc3c8db00a8a5e025089e8a83d22514d" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.6%<br>             Clorofila-a: 57.59 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_1525c7a4843eeb16414598816e665b80.setContent(html_bc3c8db00a8a5e025089e8a83d22514d);
+            
+        
+
+        circle_marker_bff766e0bf8c523443a2ed6c8309472a.bindPopup(popup_1525c7a4843eeb16414598816e665b80)
+        ;
+
+        
+    
+    
+            var circle_marker_c230c2e38e4ec6a01dbc30968c70bd09 = L.circleMarker(
+                [14.420920894736842, -90.6053705045045],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_5ac09aba6b07d558ab8b5913ba9ef532 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f1018e6d9669b4cb90522a484b929aac = $(`<div id="html_f1018e6d9669b4cb90522a484b929aac" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 98.6%<br>             Clorofila-a: 57.88 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_5ac09aba6b07d558ab8b5913ba9ef532.setContent(html_f1018e6d9669b4cb90522a484b929aac);
+            
+        
+
+        circle_marker_c230c2e38e4ec6a01dbc30968c70bd09.bindPopup(popup_5ac09aba6b07d558ab8b5913ba9ef532)
+        ;
+
+        
+    
+    
+            var circle_marker_cacd8b4664b6c2e022599ef83712827d = L.circleMarker(
+                [14.420920894736842, -90.60424310810811],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_cba61e655e0fbd66b9f92e1efde1ce69 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ee9a0415f2ef20b71d015cb6f05e958c = $(`<div id="html_ee9a0415f2ef20b71d015cb6f05e958c" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.6%<br>             Clorofila-a: 59.30 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_cba61e655e0fbd66b9f92e1efde1ce69.setContent(html_ee9a0415f2ef20b71d015cb6f05e958c);
+            
+        
+
+        circle_marker_cacd8b4664b6c2e022599ef83712827d.bindPopup(popup_cba61e655e0fbd66b9f92e1efde1ce69)
+        ;
+
+        
+    
+    
+            var circle_marker_a75a2ca51d727b65c7d56a18d1c66adb = L.circleMarker(
+                [14.420920894736842, -90.60311571171171],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_2e5af0a8e460ab9781bdef179ecd752b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2213466ef8cb2e49926172a89802c614 = $(`<div id="html_2213466ef8cb2e49926172a89802c614" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 57.48 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_2e5af0a8e460ab9781bdef179ecd752b.setContent(html_2213466ef8cb2e49926172a89802c614);
+            
+        
+
+        circle_marker_a75a2ca51d727b65c7d56a18d1c66adb.bindPopup(popup_2e5af0a8e460ab9781bdef179ecd752b)
+        ;
+
+        
+    
+    
+            var circle_marker_31f4686e194e5a4c2f86215a77001e7f = L.circleMarker(
+                [14.420920894736842, -90.60198831531531],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_5fdfa50d593eb3c97b98912d673db6cb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6b58ff04894038bfd43048da985c3ea3 = $(`<div id="html_6b58ff04894038bfd43048da985c3ea3" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 66.64 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_5fdfa50d593eb3c97b98912d673db6cb.setContent(html_6b58ff04894038bfd43048da985c3ea3);
+            
+        
+
+        circle_marker_31f4686e194e5a4c2f86215a77001e7f.bindPopup(popup_5fdfa50d593eb3c97b98912d673db6cb)
+        ;
+
+        
+    
+    
+            var circle_marker_4d755edda7a53c2453a5e65d1f2e6207 = L.circleMarker(
+                [14.420920894736842, -90.60086091891891],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_6182768a0dc2c01c80ad8ca064ac6697 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_01494f6810c64674107a4eb31b1cfb2a = $(`<div id="html_01494f6810c64674107a4eb31b1cfb2a" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 84.58 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_6182768a0dc2c01c80ad8ca064ac6697.setContent(html_01494f6810c64674107a4eb31b1cfb2a);
+            
+        
+
+        circle_marker_4d755edda7a53c2453a5e65d1f2e6207.bindPopup(popup_6182768a0dc2c01c80ad8ca064ac6697)
+        ;
+
+        
+    
+    
+            var circle_marker_88522907f3339cb2cc147f7be7e22b5a = L.circleMarker(
+                [14.420920894736842, -90.59973352252253],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_20c8848cf7e10dfe9fdd711038bde004 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_78981c0dd4090440b0562857f0cd3b6b = $(`<div id="html_78981c0dd4090440b0562857f0cd3b6b" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.9%<br>             Clorofila-a: 81.06 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_20c8848cf7e10dfe9fdd711038bde004.setContent(html_78981c0dd4090440b0562857f0cd3b6b);
+            
+        
+
+        circle_marker_88522907f3339cb2cc147f7be7e22b5a.bindPopup(popup_20c8848cf7e10dfe9fdd711038bde004)
+        ;
+
+        
+    
+    
+            var circle_marker_c60eaec0d3b7e888fa2f65a57f9f600d = L.circleMarker(
+                [14.420920894736842, -90.59860612612613],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_7495625dfce7d995522c06cbb3cffa0c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cf04bc290aa032e8db6c899864ed4aed = $(`<div id="html_cf04bc290aa032e8db6c899864ed4aed" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 97.4%<br>             Clorofila-a: 75.79 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_7495625dfce7d995522c06cbb3cffa0c.setContent(html_cf04bc290aa032e8db6c899864ed4aed);
+            
+        
+
+        circle_marker_c60eaec0d3b7e888fa2f65a57f9f600d.bindPopup(popup_7495625dfce7d995522c06cbb3cffa0c)
+        ;
+
+        
+    
+    
+            var circle_marker_8c802b56a9399b3f2545aabfcb46d55b = L.circleMarker(
+                [14.421992631578947, -90.60424310810811],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_130e23f62fc3c16eff9360a873006201 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_40945919c053ecd87711cf5f39c762d2 = $(`<div id="html_40945919c053ecd87711cf5f39c762d2" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 98.5%<br>             Clorofila-a: 63.45 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_130e23f62fc3c16eff9360a873006201.setContent(html_40945919c053ecd87711cf5f39c762d2);
+            
+        
+
+        circle_marker_8c802b56a9399b3f2545aabfcb46d55b.bindPopup(popup_130e23f62fc3c16eff9360a873006201)
+        ;
+
+        
+    
+    
+            var circle_marker_3855642c2281db8247cfb3b5c2b5c151 = L.circleMarker(
+                [14.421992631578947, -90.60311571171171],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_95afaa960021638f316ac069cd031a8e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2e400284443515cec880d03fa067cc0f = $(`<div id="html_2e400284443515cec880d03fa067cc0f" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.5%<br>             Clorofila-a: 65.67 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_95afaa960021638f316ac069cd031a8e.setContent(html_2e400284443515cec880d03fa067cc0f);
+            
+        
+
+        circle_marker_3855642c2281db8247cfb3b5c2b5c151.bindPopup(popup_95afaa960021638f316ac069cd031a8e)
+        ;
+
+        
+    
+    
+            var circle_marker_cc8dd65bd7d25f0d301776686e7f145f = L.circleMarker(
+                [14.421992631578947, -90.60198831531531],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_40ea06bffb7723173be203aaf4f96712 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_37ea81d18b6cb0ae69ead0d5e612f87c = $(`<div id="html_37ea81d18b6cb0ae69ead0d5e612f87c" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 98.9%<br>             Clorofila-a: 73.24 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_40ea06bffb7723173be203aaf4f96712.setContent(html_37ea81d18b6cb0ae69ead0d5e612f87c);
+            
+        
+
+        circle_marker_cc8dd65bd7d25f0d301776686e7f145f.bindPopup(popup_40ea06bffb7723173be203aaf4f96712)
+        ;
+
+        
+    
+    
+            var circle_marker_959d3447bebddfc0f15b4e5c700de3b5 = L.circleMarker(
+                [14.421992631578947, -90.60086091891891],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_4decc32be931939d096a4f3fdfe886ee = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bb9a3c27d2620bac1786bbea1b7bba5b = $(`<div id="html_bb9a3c27d2620bac1786bbea1b7bba5b" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.9%<br>             Clorofila-a: 93.05 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_4decc32be931939d096a4f3fdfe886ee.setContent(html_bb9a3c27d2620bac1786bbea1b7bba5b);
+            
+        
+
+        circle_marker_959d3447bebddfc0f15b4e5c700de3b5.bindPopup(popup_4decc32be931939d096a4f3fdfe886ee)
+        ;
+
+        
+    
+    
+            var circle_marker_75b266e6861e415b5efb94773232b35b = L.circleMarker(
+                [14.421992631578947, -90.59747872972973],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_a3c97f55f5bd9bac9599ef3f85f0f470 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_86adff227078ca394ab24a65360247ff = $(`<div id="html_86adff227078ca394ab24a65360247ff" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 95.87 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_a3c97f55f5bd9bac9599ef3f85f0f470.setContent(html_86adff227078ca394ab24a65360247ff);
+            
+        
+
+        circle_marker_75b266e6861e415b5efb94773232b35b.bindPopup(popup_a3c97f55f5bd9bac9599ef3f85f0f470)
+        ;
+
+        
+    
+    
+            var circle_marker_ecff0b357f392e4f9fc03dac1ad93c06 = L.circleMarker(
+                [14.421992631578947, -90.59635133333333],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_cf65c14ae2e14542ffccdf3099813e4f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fbda3f0b6341aa1ab3d9188db87b9736 = $(`<div id="html_fbda3f0b6341aa1ab3d9188db87b9736" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 97.2%<br>             Clorofila-a: 94.53 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_cf65c14ae2e14542ffccdf3099813e4f.setContent(html_fbda3f0b6341aa1ab3d9188db87b9736);
+            
+        
+
+        circle_marker_ecff0b357f392e4f9fc03dac1ad93c06.bindPopup(popup_cf65c14ae2e14542ffccdf3099813e4f)
+        ;
+
+        
+    
+    
+            var circle_marker_71b00b31a91780cab3be952827fef3c1 = L.circleMarker(
+                [14.421992631578947, -90.59522393693693],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_bc1d8d0203dd3f5b730116ad5ed5947f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5061ff69db3a96cb6460a4d6571efc9c = $(`<div id="html_5061ff69db3a96cb6460a4d6571efc9c" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.7%<br>             Clorofila-a: 87.93 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_bc1d8d0203dd3f5b730116ad5ed5947f.setContent(html_5061ff69db3a96cb6460a4d6571efc9c);
+            
+        
+
+        circle_marker_71b00b31a91780cab3be952827fef3c1.bindPopup(popup_bc1d8d0203dd3f5b730116ad5ed5947f)
+        ;
+
+        
+    
+    
+            var circle_marker_87607510b5c035a2ccfd2ff6de7beba2 = L.circleMarker(
+                [14.421992631578947, -90.59409654054053],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_ea741763d3a484c645c4d67afce08f79 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0f4a4ee348be5c28baf274cec0ffee23 = $(`<div id="html_0f4a4ee348be5c28baf274cec0ffee23" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.0%<br>             Clorofila-a: 79.09 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_ea741763d3a484c645c4d67afce08f79.setContent(html_0f4a4ee348be5c28baf274cec0ffee23);
+            
+        
+
+        circle_marker_87607510b5c035a2ccfd2ff6de7beba2.bindPopup(popup_ea741763d3a484c645c4d67afce08f79)
+        ;
+
+        
+    
+    
+            var circle_marker_01a4b04ebae82264a9fd238d1f66c7c4 = L.circleMarker(
+                [14.421992631578947, -90.59296914414413],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_15d9230e1d45b52a40029005ea6fb9e4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9cf12d18753f2fb956bc586aec3c236f = $(`<div id="html_9cf12d18753f2fb956bc586aec3c236f" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 98.7%<br>             Clorofila-a: 72.41 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_15d9230e1d45b52a40029005ea6fb9e4.setContent(html_9cf12d18753f2fb956bc586aec3c236f);
+            
+        
+
+        circle_marker_01a4b04ebae82264a9fd238d1f66c7c4.bindPopup(popup_15d9230e1d45b52a40029005ea6fb9e4)
+        ;
+
+        
+    
+    
+            var circle_marker_2a55155f35f99f9fdfa7d993b2c2c1c3 = L.circleMarker(
+                [14.421992631578947, -90.59184174774775],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_3b3a0ab2fc48564b764e73e0907f0206 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7aae366f93179b18fa97c451e14fb1a3 = $(`<div id="html_7aae366f93179b18fa97c451e14fb1a3" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 97.6%<br>             Clorofila-a: 58.70 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_3b3a0ab2fc48564b764e73e0907f0206.setContent(html_7aae366f93179b18fa97c451e14fb1a3);
+            
+        
+
+        circle_marker_2a55155f35f99f9fdfa7d993b2c2c1c3.bindPopup(popup_3b3a0ab2fc48564b764e73e0907f0206)
+        ;
+
+        
+    
+    
+            var circle_marker_384c779f03ca175564024c350e47143f = L.circleMarker(
+                [14.423064368421054, -90.6053705045045],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_907ec825bf33367fc741d478d17f0b1e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3a2d827b9cfb82bc4ea34f5871dfcf4f = $(`<div id="html_3a2d827b9cfb82bc4ea34f5871dfcf4f" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 95.5%<br>             Clorofila-a: 57.37 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_907ec825bf33367fc741d478d17f0b1e.setContent(html_3a2d827b9cfb82bc4ea34f5871dfcf4f);
+            
+        
+
+        circle_marker_384c779f03ca175564024c350e47143f.bindPopup(popup_907ec825bf33367fc741d478d17f0b1e)
+        ;
+
+        
+    
+    
+            var circle_marker_2ab83ff9715726a6a3179b79574b04d1 = L.circleMarker(
+                [14.423064368421054, -90.60424310810811],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_b967b6c83d4b8541d97ee5d97b3254b7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d95daebabd68ea118bc2d2f0b6a22ae8 = $(`<div id="html_d95daebabd68ea118bc2d2f0b6a22ae8" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 97.2%<br>             Clorofila-a: 66.34 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_b967b6c83d4b8541d97ee5d97b3254b7.setContent(html_d95daebabd68ea118bc2d2f0b6a22ae8);
+            
+        
+
+        circle_marker_2ab83ff9715726a6a3179b79574b04d1.bindPopup(popup_b967b6c83d4b8541d97ee5d97b3254b7)
+        ;
+
+        
+    
+    
+            var circle_marker_374c3eec9a08dd3320ca53073dd7a250 = L.circleMarker(
+                [14.423064368421054, -90.60311571171171],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_f29f41939de3a25180355e2b822abfea = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d0e1a8635db5526f65417e7743e41a64 = $(`<div id="html_d0e1a8635db5526f65417e7743e41a64" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.5%<br>             Clorofila-a: 69.07 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_f29f41939de3a25180355e2b822abfea.setContent(html_d0e1a8635db5526f65417e7743e41a64);
+            
+        
+
+        circle_marker_374c3eec9a08dd3320ca53073dd7a250.bindPopup(popup_f29f41939de3a25180355e2b822abfea)
+        ;
+
+        
+    
+    
+            var circle_marker_a2b5e60a99b7aaf0facc75b0a0af0ea5 = L.circleMarker(
+                [14.423064368421054, -90.60198831531531],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_6ccced1f9081a964f09bb0cb987a9b41 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8bb935fd3f8f94ae989ab310eaec276f = $(`<div id="html_8bb935fd3f8f94ae989ab310eaec276f" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 76.59 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_6ccced1f9081a964f09bb0cb987a9b41.setContent(html_8bb935fd3f8f94ae989ab310eaec276f);
+            
+        
+
+        circle_marker_a2b5e60a99b7aaf0facc75b0a0af0ea5.bindPopup(popup_6ccced1f9081a964f09bb0cb987a9b41)
+        ;
+
+        
+    
+    
+            var circle_marker_0ba5a337122e593d4f531d11e243e7aa = L.circleMarker(
+                [14.423064368421054, -90.60086091891891],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_596b43d7e660fc93a41fce27ee53c1e4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8f26c3e792cae171c03554df9c56f1a9 = $(`<div id="html_8f26c3e792cae171c03554df9c56f1a9" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 88.91 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_596b43d7e660fc93a41fce27ee53c1e4.setContent(html_8f26c3e792cae171c03554df9c56f1a9);
+            
+        
+
+        circle_marker_0ba5a337122e593d4f531d11e243e7aa.bindPopup(popup_596b43d7e660fc93a41fce27ee53c1e4)
+        ;
+
+        
+    
+    
+            var circle_marker_4f75551acbb12a12831507cf6ff816e0 = L.circleMarker(
+                [14.423064368421054, -90.59973352252253],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_274e1626c426be80e6eb5a71944e8d57 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bd8d41eba5f097560e6b153368b5fe13 = $(`<div id="html_bd8d41eba5f097560e6b153368b5fe13" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 100.00 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_274e1626c426be80e6eb5a71944e8d57.setContent(html_bd8d41eba5f097560e6b153368b5fe13);
+            
+        
+
+        circle_marker_4f75551acbb12a12831507cf6ff816e0.bindPopup(popup_274e1626c426be80e6eb5a71944e8d57)
+        ;
+
+        
+    
+    
+            var circle_marker_af31506c7148dcd936db74a0035f3462 = L.circleMarker(
+                [14.423064368421054, -90.59860612612613],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_26042b657c6581dfb1a80521a2702e39 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_989434c0a0c63329520af5524a86554e = $(`<div id="html_989434c0a0c63329520af5524a86554e" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 100.00 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_26042b657c6581dfb1a80521a2702e39.setContent(html_989434c0a0c63329520af5524a86554e);
+            
+        
+
+        circle_marker_af31506c7148dcd936db74a0035f3462.bindPopup(popup_26042b657c6581dfb1a80521a2702e39)
+        ;
+
+        
+    
+    
+            var circle_marker_5c07ad5ae9e4b1fc8a3e9fbd4ec73352 = L.circleMarker(
+                [14.423064368421054, -90.59522393693693],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_51808b3821f994fc05fa423ed6e41177 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b587bc6494d9003c24c8d532f93424be = $(`<div id="html_b587bc6494d9003c24c8d532f93424be" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 88.70 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_51808b3821f994fc05fa423ed6e41177.setContent(html_b587bc6494d9003c24c8d532f93424be);
+            
+        
+
+        circle_marker_5c07ad5ae9e4b1fc8a3e9fbd4ec73352.bindPopup(popup_51808b3821f994fc05fa423ed6e41177)
+        ;
+
+        
+    
+    
+            var circle_marker_4abca3bc57052af6dcd2050a2fb7dbcd = L.circleMarker(
+                [14.423064368421054, -90.59409654054053],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_d96defea8a482073b35a06c7d2a46002 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_20d135a9ce8b70ddd1f5426cda341bdd = $(`<div id="html_20d135a9ce8b70ddd1f5426cda341bdd" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.4%<br>             Clorofila-a: 82.56 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_d96defea8a482073b35a06c7d2a46002.setContent(html_20d135a9ce8b70ddd1f5426cda341bdd);
+            
+        
+
+        circle_marker_4abca3bc57052af6dcd2050a2fb7dbcd.bindPopup(popup_d96defea8a482073b35a06c7d2a46002)
+        ;
+
+        
+    
+    
+            var circle_marker_2ec26c839fa5901cacecd70ad4f34eaf = L.circleMarker(
+                [14.423064368421054, -90.59296914414413],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_dc9d4439e739b362b6e310dfc20a4a5b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7406564a86e0739ec7d5860dc9ad1485 = $(`<div id="html_7406564a86e0739ec7d5860dc9ad1485" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 98.7%<br>             Clorofila-a: 73.70 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_dc9d4439e739b362b6e310dfc20a4a5b.setContent(html_7406564a86e0739ec7d5860dc9ad1485);
+            
+        
+
+        circle_marker_2ec26c839fa5901cacecd70ad4f34eaf.bindPopup(popup_dc9d4439e739b362b6e310dfc20a4a5b)
+        ;
+
+        
+    
+    
+            var circle_marker_04a485ae5f022def92c2d6b4be043fe9 = L.circleMarker(
+                [14.423064368421054, -90.59184174774775],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_5c7aff7be398ec477abd23c8a8808ab4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e0272d9ec943ba18b1756f28ef0c1d9e = $(`<div id="html_e0272d9ec943ba18b1756f28ef0c1d9e" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 95.7%<br>             Clorofila-a: 57.78 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_5c7aff7be398ec477abd23c8a8808ab4.setContent(html_e0272d9ec943ba18b1756f28ef0c1d9e);
+            
+        
+
+        circle_marker_04a485ae5f022def92c2d6b4be043fe9.bindPopup(popup_5c7aff7be398ec477abd23c8a8808ab4)
+        ;
+
+        
+    
+    
+            var circle_marker_4d6811c36cb570c277f2490dfa18d099 = L.circleMarker(
+                [14.424136105263159, -90.60198831531531],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_6afd70e2fb3bf410810b3bcd12ac0642 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_eb9f8dd671796c1497873e2f53aa95ee = $(`<div id="html_eb9f8dd671796c1497873e2f53aa95ee" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 98.0%<br>             Clorofila-a: 67.78 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_6afd70e2fb3bf410810b3bcd12ac0642.setContent(html_eb9f8dd671796c1497873e2f53aa95ee);
+            
+        
+
+        circle_marker_4d6811c36cb570c277f2490dfa18d099.bindPopup(popup_6afd70e2fb3bf410810b3bcd12ac0642)
+        ;
+
+        
+    
+    
+            var circle_marker_3dc96a408f6a42a863eaf750eea65cac = L.circleMarker(
+                [14.424136105263159, -90.60086091891891],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_014648a54f2e943a28d3ab2eb31b450d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_117740314ce9ca31f51842e34767772e = $(`<div id="html_117740314ce9ca31f51842e34767772e" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 96.9%<br>             Clorofila-a: 65.81 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_014648a54f2e943a28d3ab2eb31b450d.setContent(html_117740314ce9ca31f51842e34767772e);
+            
+        
+
+        circle_marker_3dc96a408f6a42a863eaf750eea65cac.bindPopup(popup_014648a54f2e943a28d3ab2eb31b450d)
+        ;
+
+        
+    
+    
+            var circle_marker_3ce3c5e567ab8f24f85fedbac3dd2497 = L.circleMarker(
+                [14.424136105263159, -90.59973352252253],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_3f78ac3b431b3029d88a73f7b060558b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b247a5d4b5263ce840dcd37dc960bae2 = $(`<div id="html_b247a5d4b5263ce840dcd37dc960bae2" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 86.63 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_3f78ac3b431b3029d88a73f7b060558b.setContent(html_b247a5d4b5263ce840dcd37dc960bae2);
+            
+        
+
+        circle_marker_3ce3c5e567ab8f24f85fedbac3dd2497.bindPopup(popup_3f78ac3b431b3029d88a73f7b060558b)
+        ;
+
+        
+    
+    
+            var circle_marker_37e77e21ee59cd284e6b186b51bd5b39 = L.circleMarker(
+                [14.424136105263159, -90.59860612612613],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_69f46e5806c30987e9c0db2a67f6e8c8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_761d7407795dd6c9cf143e8aba853eb2 = $(`<div id="html_761d7407795dd6c9cf143e8aba853eb2" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 99.20 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_69f46e5806c30987e9c0db2a67f6e8c8.setContent(html_761d7407795dd6c9cf143e8aba853eb2);
+            
+        
+
+        circle_marker_37e77e21ee59cd284e6b186b51bd5b39.bindPopup(popup_69f46e5806c30987e9c0db2a67f6e8c8)
+        ;
+
+        
+    
+    
+            var circle_marker_b08006c6e83b2c21a67d84d3ff103905 = L.circleMarker(
+                [14.424136105263159, -90.59747872972973],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_4d60191eab57b5f615765e4390552774 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_990870bfb01d84ef6acd950175c4c9d4 = $(`<div id="html_990870bfb01d84ef6acd950175c4c9d4" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 100.00 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_4d60191eab57b5f615765e4390552774.setContent(html_990870bfb01d84ef6acd950175c4c9d4);
+            
+        
+
+        circle_marker_b08006c6e83b2c21a67d84d3ff103905.bindPopup(popup_4d60191eab57b5f615765e4390552774)
+        ;
+
+        
+    
+    
+            var circle_marker_d96fe793ea5e8c3692924534bad81fa2 = L.circleMarker(
+                [14.424136105263159, -90.59635133333333],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_d45eb4621f96ad9b791609d5b5932696 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2a74f7ee7033e64aae830c633c2b09ee = $(`<div id="html_2a74f7ee7033e64aae830c633c2b09ee" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 100.00 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_d45eb4621f96ad9b791609d5b5932696.setContent(html_2a74f7ee7033e64aae830c633c2b09ee);
+            
+        
+
+        circle_marker_d96fe793ea5e8c3692924534bad81fa2.bindPopup(popup_d45eb4621f96ad9b791609d5b5932696)
+        ;
+
+        
+    
+    
+            var circle_marker_57ef41ec6bd8e885f62674cd7cb43090 = L.circleMarker(
+                [14.424136105263159, -90.59522393693693],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_b45ceffd602fe13730a7c390a8d0cfc8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1bc31dad4e20d2bf8322d9cc3224c4e0 = $(`<div id="html_1bc31dad4e20d2bf8322d9cc3224c4e0" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 100.00 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_b45ceffd602fe13730a7c390a8d0cfc8.setContent(html_1bc31dad4e20d2bf8322d9cc3224c4e0);
+            
+        
+
+        circle_marker_57ef41ec6bd8e885f62674cd7cb43090.bindPopup(popup_b45ceffd602fe13730a7c390a8d0cfc8)
+        ;
+
+        
+    
+    
+            var circle_marker_e0b8195aefa538ca03e11c897ef519e8 = L.circleMarker(
+                [14.424136105263159, -90.59409654054053],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_d4502820c0e6803f803fe108e131e4e3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1e42631315660d97a0b4306b0c3bff4c = $(`<div id="html_1e42631315660d97a0b4306b0c3bff4c" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 98.0%<br>             Clorofila-a: 91.01 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_d4502820c0e6803f803fe108e131e4e3.setContent(html_1e42631315660d97a0b4306b0c3bff4c);
+            
+        
+
+        circle_marker_e0b8195aefa538ca03e11c897ef519e8.bindPopup(popup_d4502820c0e6803f803fe108e131e4e3)
+        ;
+
+        
+    
+    
+            var circle_marker_c5851f698b57c29aaee05757b9958574 = L.circleMarker(
+                [14.424136105263159, -90.59296914414413],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_0a830509dd4ae6b7ff52b29975bb6063 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_42090c6d95b0f984493c83bfd836875b = $(`<div id="html_42090c6d95b0f984493c83bfd836875b" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.8%<br>             Clorofila-a: 79.04 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_0a830509dd4ae6b7ff52b29975bb6063.setContent(html_42090c6d95b0f984493c83bfd836875b);
+            
+        
+
+        circle_marker_c5851f698b57c29aaee05757b9958574.bindPopup(popup_0a830509dd4ae6b7ff52b29975bb6063)
+        ;
+
+        
+    
+    
+            var circle_marker_b0aa5aa640439b44e0c99ab3570fe0ae = L.circleMarker(
+                [14.424136105263159, -90.59184174774775],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_2eac13c4dd434ea4b99bc23b1d01a745 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5a993cdc1f639c79f7af9cbb1b8aa149 = $(`<div id="html_5a993cdc1f639c79f7af9cbb1b8aa149" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 74.38 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_2eac13c4dd434ea4b99bc23b1d01a745.setContent(html_5a993cdc1f639c79f7af9cbb1b8aa149);
+            
+        
+
+        circle_marker_b0aa5aa640439b44e0c99ab3570fe0ae.bindPopup(popup_2eac13c4dd434ea4b99bc23b1d01a745)
+        ;
+
+        
+    
+    
+            var circle_marker_b31ad36988f1fc7d7392288e394cfc67 = L.circleMarker(
+                [14.424136105263159, -90.59071435135135],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_20d33ed0f3f69b56113c978f276578b5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_274334c33af95ad33102c74c30802d4a = $(`<div id="html_274334c33af95ad33102c74c30802d4a" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 97.7%<br>             Clorofila-a: 59.80 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_20d33ed0f3f69b56113c978f276578b5.setContent(html_274334c33af95ad33102c74c30802d4a);
+            
+        
+
+        circle_marker_b31ad36988f1fc7d7392288e394cfc67.bindPopup(popup_20d33ed0f3f69b56113c978f276578b5)
+        ;
+
+        
+    
+    
+            var circle_marker_6b533991ff5eedd9c4c76e64468e847b = L.circleMarker(
+                [14.425207842105264, -90.59860612612613],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_6cfc54ff5d61ea2758f99f9ba9b7176a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_55229ef2b962583c4ecf2822e2172c82 = $(`<div id="html_55229ef2b962583c4ecf2822e2172c82" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 98.4%<br>             Clorofila-a: 75.88 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_6cfc54ff5d61ea2758f99f9ba9b7176a.setContent(html_55229ef2b962583c4ecf2822e2172c82);
+            
+        
+
+        circle_marker_6b533991ff5eedd9c4c76e64468e847b.bindPopup(popup_6cfc54ff5d61ea2758f99f9ba9b7176a)
+        ;
+
+        
+    
+    
+            var circle_marker_1707308399d362b60464f743595ce6f7 = L.circleMarker(
+                [14.425207842105264, -90.59747872972973],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_137cda3054f66e99c54dd3acc868aa55 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c1cff687783252d5c673817d5b37bc84 = $(`<div id="html_c1cff687783252d5c673817d5b37bc84" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 98.6%<br>             Clorofila-a: 90.55 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_137cda3054f66e99c54dd3acc868aa55.setContent(html_c1cff687783252d5c673817d5b37bc84);
+            
+        
+
+        circle_marker_1707308399d362b60464f743595ce6f7.bindPopup(popup_137cda3054f66e99c54dd3acc868aa55)
+        ;
+
+        
+    
+    
+            var circle_marker_b25bdce50ff13f6c98b9fd0020993e11 = L.circleMarker(
+                [14.425207842105264, -90.59635133333333],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_83757ef8e70f3c3bcede6b459ab83cc8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_34e3ea13c37335046d8d7763847518dc = $(`<div id="html_34e3ea13c37335046d8d7763847518dc" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 98.26 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_83757ef8e70f3c3bcede6b459ab83cc8.setContent(html_34e3ea13c37335046d8d7763847518dc);
+            
+        
+
+        circle_marker_b25bdce50ff13f6c98b9fd0020993e11.bindPopup(popup_83757ef8e70f3c3bcede6b459ab83cc8)
+        ;
+
+        
+    
+    
+            var circle_marker_3f51903e3286db5190622b058852ee52 = L.circleMarker(
+                [14.425207842105264, -90.59522393693693],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_0c04fb452feb0e9ef75e15d2e203f2df = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3eb1e68045a88d28090cd2304bbdb4b4 = $(`<div id="html_3eb1e68045a88d28090cd2304bbdb4b4" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 97.92 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_0c04fb452feb0e9ef75e15d2e203f2df.setContent(html_3eb1e68045a88d28090cd2304bbdb4b4);
+            
+        
+
+        circle_marker_3f51903e3286db5190622b058852ee52.bindPopup(popup_0c04fb452feb0e9ef75e15d2e203f2df)
+        ;
+
+        
+    
+    
+            var circle_marker_db7034ec303b403352de1bdf21bc7bff = L.circleMarker(
+                [14.425207842105264, -90.59409654054053],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_a4456508a9455adb0726520304508137 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c88264c9922fa2b1cdcddba1c4f32bc7 = $(`<div id="html_c88264c9922fa2b1cdcddba1c4f32bc7" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 85.83 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_a4456508a9455adb0726520304508137.setContent(html_c88264c9922fa2b1cdcddba1c4f32bc7);
+            
+        
+
+        circle_marker_db7034ec303b403352de1bdf21bc7bff.bindPopup(popup_a4456508a9455adb0726520304508137)
+        ;
+
+        
+    
+    
+            var circle_marker_b68114bcd59a0c68d0caa4523226df36 = L.circleMarker(
+                [14.425207842105264, -90.59296914414413],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_281c1572d6fcdcdf8b3175e9049b73aa = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1d773531298209601ada8c9341c1c0ee = $(`<div id="html_1d773531298209601ada8c9341c1c0ee" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 76.43 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_281c1572d6fcdcdf8b3175e9049b73aa.setContent(html_1d773531298209601ada8c9341c1c0ee);
+            
+        
+
+        circle_marker_b68114bcd59a0c68d0caa4523226df36.bindPopup(popup_281c1572d6fcdcdf8b3175e9049b73aa)
+        ;
+
+        
+    
+    
+            var circle_marker_0fc2e75c017b74c091720aa3e72e2219 = L.circleMarker(
+                [14.425207842105264, -90.59184174774775],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_7e7286933929d960bd136eaf0a3d1538 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f556e26203cb7fe8da175ca9146951eb = $(`<div id="html_f556e26203cb7fe8da175ca9146951eb" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 97.9%<br>             Clorofila-a: 70.75 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_7e7286933929d960bd136eaf0a3d1538.setContent(html_f556e26203cb7fe8da175ca9146951eb);
+            
+        
+
+        circle_marker_0fc2e75c017b74c091720aa3e72e2219.bindPopup(popup_7e7286933929d960bd136eaf0a3d1538)
+        ;
+
+        
+    
+    
+            var circle_marker_030a956edb7b52ea45193cc8e0163553 = L.circleMarker(
+                [14.425207842105264, -90.59071435135135],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_16a09baeb3e09e0548ff0101e9565f1d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3a5e4af45576046b7ad95475ec57611d = $(`<div id="html_3a5e4af45576046b7ad95475ec57611d" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 97.6%<br>             Clorofila-a: 63.41 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_16a09baeb3e09e0548ff0101e9565f1d.setContent(html_3a5e4af45576046b7ad95475ec57611d);
+            
+        
+
+        circle_marker_030a956edb7b52ea45193cc8e0163553.bindPopup(popup_16a09baeb3e09e0548ff0101e9565f1d)
+        ;
+
+        
+    
+    
+            var circle_marker_cd884f3fdc2517420adfcad24c64dad1 = L.circleMarker(
+                [14.425207842105264, -90.58958695495495],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_483dc5e3c73e9c6f77450655ff8a3175 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4357d2f608a06e5d6765f6a7580bec1a = $(`<div id="html_4357d2f608a06e5d6765f6a7580bec1a" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 97.9%<br>             Clorofila-a: 60.17 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_483dc5e3c73e9c6f77450655ff8a3175.setContent(html_4357d2f608a06e5d6765f6a7580bec1a);
+            
+        
+
+        circle_marker_cd884f3fdc2517420adfcad24c64dad1.bindPopup(popup_483dc5e3c73e9c6f77450655ff8a3175)
+        ;
+
+        
+    
+    
+            var circle_marker_31471d699492b4c3a8b03dfd0e01febf = L.circleMarker(
+                [14.42627957894737, -90.59635133333333],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_7a095a26bd82a7208c93ce39ff71c484 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_da1852eab7cc7480cb749dc9acd843c2 = $(`<div id="html_da1852eab7cc7480cb749dc9acd843c2" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.8%<br>             Clorofila-a: 83.67 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_7a095a26bd82a7208c93ce39ff71c484.setContent(html_da1852eab7cc7480cb749dc9acd843c2);
+            
+        
+
+        circle_marker_31471d699492b4c3a8b03dfd0e01febf.bindPopup(popup_7a095a26bd82a7208c93ce39ff71c484)
+        ;
+
+        
+    
+    
+            var circle_marker_7a4a1ffd4c9422c484fd1ded8c49083b = L.circleMarker(
+                [14.42627957894737, -90.59522393693693],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_38d4ca7ae2f446cd5ef19a480a80a631 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b8ea9650afa59b2093456b80c8a39f06 = $(`<div id="html_b8ea9650afa59b2093456b80c8a39f06" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 93.96 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_38d4ca7ae2f446cd5ef19a480a80a631.setContent(html_b8ea9650afa59b2093456b80c8a39f06);
+            
+        
+
+        circle_marker_7a4a1ffd4c9422c484fd1ded8c49083b.bindPopup(popup_38d4ca7ae2f446cd5ef19a480a80a631)
+        ;
+
+        
+    
+    
+            var circle_marker_e358ff92774e4b593a8e4c1681e03081 = L.circleMarker(
+                [14.42627957894737, -90.59409654054053],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_d884e76038eb113b83b8d74c6edf45cb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1c74bc7a52e21f7191cdc540233cd940 = $(`<div id="html_1c74bc7a52e21f7191cdc540233cd940" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 95.43 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_d884e76038eb113b83b8d74c6edf45cb.setContent(html_1c74bc7a52e21f7191cdc540233cd940);
+            
+        
+
+        circle_marker_e358ff92774e4b593a8e4c1681e03081.bindPopup(popup_d884e76038eb113b83b8d74c6edf45cb)
+        ;
+
+        
+    
+    
+            var circle_marker_ae1f7b2733e3d4586c94b6340be3a225 = L.circleMarker(
+                [14.42627957894737, -90.59296914414413],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_963375eec1bb7c46f2c7a279c15e336a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6d5d0859622d8c409e471213539605f3 = $(`<div id="html_6d5d0859622d8c409e471213539605f3" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 91.42 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_963375eec1bb7c46f2c7a279c15e336a.setContent(html_6d5d0859622d8c409e471213539605f3);
+            
+        
+
+        circle_marker_ae1f7b2733e3d4586c94b6340be3a225.bindPopup(popup_963375eec1bb7c46f2c7a279c15e336a)
+        ;
+
+        
+    
+    
+            var circle_marker_a847169004377723e8e6bfe308793685 = L.circleMarker(
+                [14.42627957894737, -90.59184174774775],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_8834635551498aa0b607e84733369c11 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5f20968521e237f073fa88e55c5af499 = $(`<div id="html_5f20968521e237f073fa88e55c5af499" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.0%<br>             Clorofila-a: 85.87 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_8834635551498aa0b607e84733369c11.setContent(html_5f20968521e237f073fa88e55c5af499);
+            
+        
+
+        circle_marker_a847169004377723e8e6bfe308793685.bindPopup(popup_8834635551498aa0b607e84733369c11)
+        ;
+
+        
+    
+    
+            var circle_marker_e2911ffeffe9f12fe6f460c00a50fe4c = L.circleMarker(
+                [14.42627957894737, -90.59071435135135],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_e13f9b9485720e5b576cfdb28ef22560 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b2d1e62426228d081c62eb936c6f6a98 = $(`<div id="html_b2d1e62426228d081c62eb936c6f6a98" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 76.66 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_e13f9b9485720e5b576cfdb28ef22560.setContent(html_b2d1e62426228d081c62eb936c6f6a98);
+            
+        
+
+        circle_marker_e2911ffeffe9f12fe6f460c00a50fe4c.bindPopup(popup_e13f9b9485720e5b576cfdb28ef22560)
+        ;
+
+        
+    
+    
+            var circle_marker_a5b6557a8b1a6ab1edcfedf10155c434 = L.circleMarker(
+                [14.42627957894737, -90.58958695495495],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_e9777a52591062c5e9268d838eee02ae = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_633f0864e5c47b88812043d28a0a0abd = $(`<div id="html_633f0864e5c47b88812043d28a0a0abd" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 63.76 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_e9777a52591062c5e9268d838eee02ae.setContent(html_633f0864e5c47b88812043d28a0a0abd);
+            
+        
+
+        circle_marker_a5b6557a8b1a6ab1edcfedf10155c434.bindPopup(popup_e9777a52591062c5e9268d838eee02ae)
+        ;
+
+        
+    
+    
+            var circle_marker_6b140c109f8fbe1d5cd3e83bf700da0e = L.circleMarker(
+                [14.427351315789474, -90.59522393693693],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_3031e498cfc653a28c07c0782f4a066e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_eb623b48315b168e5881c0bf931802ec = $(`<div id="html_eb623b48315b168e5881c0bf931802ec" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 76.41 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_3031e498cfc653a28c07c0782f4a066e.setContent(html_eb623b48315b168e5881c0bf931802ec);
+            
+        
+
+        circle_marker_6b140c109f8fbe1d5cd3e83bf700da0e.bindPopup(popup_3031e498cfc653a28c07c0782f4a066e)
+        ;
+
+        
+    
+    
+            var circle_marker_2943d332c103be71907347575b931bba = L.circleMarker(
+                [14.427351315789474, -90.59409654054053],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_c3989c9bcc10aa64f20d63f1b0517eef = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_959a0e0e4225fec39243bb1ffe8700dd = $(`<div id="html_959a0e0e4225fec39243bb1ffe8700dd" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 98.8%<br>             Clorofila-a: 90.41 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_c3989c9bcc10aa64f20d63f1b0517eef.setContent(html_959a0e0e4225fec39243bb1ffe8700dd);
+            
+        
+
+        circle_marker_2943d332c103be71907347575b931bba.bindPopup(popup_c3989c9bcc10aa64f20d63f1b0517eef)
+        ;
+
+        
+    
+    
+            var circle_marker_611b390147adba874320a92615238d0a = L.circleMarker(
+                [14.427351315789474, -90.59296914414413],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_3ff66f414262edc58bf17febc7c4ad21 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_dffe086d995bce47f41ae29c4dcf7c31 = $(`<div id="html_dffe086d995bce47f41ae29c4dcf7c31" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 88.90 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_3ff66f414262edc58bf17febc7c4ad21.setContent(html_dffe086d995bce47f41ae29c4dcf7c31);
+            
+        
+
+        circle_marker_611b390147adba874320a92615238d0a.bindPopup(popup_3ff66f414262edc58bf17febc7c4ad21)
+        ;
+
+        
+    
+    
+            var circle_marker_7a7733f527a8022385913bedacde8dad = L.circleMarker(
+                [14.427351315789474, -90.59184174774775],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_38563f373681e449b9cdf2419de25bbb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ca2f3cf15879481b31ad41e91f340b25 = $(`<div id="html_ca2f3cf15879481b31ad41e91f340b25" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 91.32 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_38563f373681e449b9cdf2419de25bbb.setContent(html_ca2f3cf15879481b31ad41e91f340b25);
+            
+        
+
+        circle_marker_7a7733f527a8022385913bedacde8dad.bindPopup(popup_38563f373681e449b9cdf2419de25bbb)
+        ;
+
+        
+    
+    
+            var circle_marker_4b752971e21e8abd235144440730f9b5 = L.circleMarker(
+                [14.427351315789474, -90.59071435135135],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_d424e736a139b72e56762bbdef02f0af = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6e52398fca78a3b5c4ba4d410e82bec4 = $(`<div id="html_6e52398fca78a3b5c4ba4d410e82bec4" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 79.06 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_d424e736a139b72e56762bbdef02f0af.setContent(html_6e52398fca78a3b5c4ba4d410e82bec4);
+            
+        
+
+        circle_marker_4b752971e21e8abd235144440730f9b5.bindPopup(popup_d424e736a139b72e56762bbdef02f0af)
+        ;
+
+        
+    
+    
+            var circle_marker_b8106811d158cf5951b17264f770583d = L.circleMarker(
+                [14.427351315789474, -90.58958695495495],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_d64a2ad67a0b446e455f791d3e90b86f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_56db4b22124cc2e805a4332138ad53c4 = $(`<div id="html_56db4b22124cc2e805a4332138ad53c4" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 77.04 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_d64a2ad67a0b446e455f791d3e90b86f.setContent(html_56db4b22124cc2e805a4332138ad53c4);
+            
+        
+
+        circle_marker_b8106811d158cf5951b17264f770583d.bindPopup(popup_d64a2ad67a0b446e455f791d3e90b86f)
+        ;
+
+        
+    
+    
+            var circle_marker_1e88c420c54c1c836e1d358e88f5b43e = L.circleMarker(
+                [14.427351315789474, -90.58845955855855],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_032a17ae118d2bcc68b65a2d09e6fcde = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_35e5573e149907274ef4780a1da3fc80 = $(`<div id="html_35e5573e149907274ef4780a1da3fc80" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 64.91 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_032a17ae118d2bcc68b65a2d09e6fcde.setContent(html_35e5573e149907274ef4780a1da3fc80);
+            
+        
+
+        circle_marker_1e88c420c54c1c836e1d358e88f5b43e.bindPopup(popup_032a17ae118d2bcc68b65a2d09e6fcde)
+        ;
+
+        
+    
+    
+            var circle_marker_5f05cfcc999888eb2e7866c6d02d4452 = L.circleMarker(
+                [14.427351315789474, -90.58733216216216],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_79b789c9ade898b88bb24461880f68f8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5018d04c85c33d8b8f99c0ae5342b0c0 = $(`<div id="html_5018d04c85c33d8b8f99c0ae5342b0c0" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 98.9%<br>             Clorofila-a: 60.08 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_79b789c9ade898b88bb24461880f68f8.setContent(html_5018d04c85c33d8b8f99c0ae5342b0c0);
+            
+        
+
+        circle_marker_5f05cfcc999888eb2e7866c6d02d4452.bindPopup(popup_79b789c9ade898b88bb24461880f68f8)
+        ;
+
+        
+    
+    
+            var circle_marker_07f4fa3e22b39efad520985cd7a52fc1 = L.circleMarker(
+                [14.42842305263158, -90.59296914414413],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_06ecc2fb3ed523c7ed591bf93fff3a76 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_afe2155d4b3a909190c897abe72f6b84 = $(`<div id="html_afe2155d4b3a909190c897abe72f6b84" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 88.64 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_06ecc2fb3ed523c7ed591bf93fff3a76.setContent(html_afe2155d4b3a909190c897abe72f6b84);
+            
+        
+
+        circle_marker_07f4fa3e22b39efad520985cd7a52fc1.bindPopup(popup_06ecc2fb3ed523c7ed591bf93fff3a76)
+        ;
+
+        
+    
+    
+            var circle_marker_18f5133acbcefed472180aef896c3cb6 = L.circleMarker(
+                [14.42842305263158, -90.59184174774775],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_4e4b5c614ce7ec981e722135853f5ed6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ca1c458af6f3069ab046878538bfb176 = $(`<div id="html_ca1c458af6f3069ab046878538bfb176" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 83.36 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_4e4b5c614ce7ec981e722135853f5ed6.setContent(html_ca1c458af6f3069ab046878538bfb176);
+            
+        
+
+        circle_marker_18f5133acbcefed472180aef896c3cb6.bindPopup(popup_4e4b5c614ce7ec981e722135853f5ed6)
+        ;
+
+        
+    
+    
+            var circle_marker_77722cb49fdf1180bee5c1fdb37d34f5 = L.circleMarker(
+                [14.42842305263158, -90.59071435135135],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_79dfd58cfb0ba87254d8c9a56be0cabf = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c2dbd0bec600c54f1d11128654fd3d55 = $(`<div id="html_c2dbd0bec600c54f1d11128654fd3d55" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 76.91 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_79dfd58cfb0ba87254d8c9a56be0cabf.setContent(html_c2dbd0bec600c54f1d11128654fd3d55);
+            
+        
+
+        circle_marker_77722cb49fdf1180bee5c1fdb37d34f5.bindPopup(popup_79dfd58cfb0ba87254d8c9a56be0cabf)
+        ;
+
+        
+    
+    
+            var circle_marker_fcf51fcc70a789b04908ca1cbdaa8bcf = L.circleMarker(
+                [14.42842305263158, -90.58958695495495],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_98033e0d04592c261b86e6d89b44801a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7b5e54dee3070c3fab9dc9d890cfe6de = $(`<div id="html_7b5e54dee3070c3fab9dc9d890cfe6de" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 77.04 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_98033e0d04592c261b86e6d89b44801a.setContent(html_7b5e54dee3070c3fab9dc9d890cfe6de);
+            
+        
+
+        circle_marker_fcf51fcc70a789b04908ca1cbdaa8bcf.bindPopup(popup_98033e0d04592c261b86e6d89b44801a)
+        ;
+
+        
+    
+    
+            var circle_marker_8b9ffeae0b1de6c82f6c89ea2f135091 = L.circleMarker(
+                [14.42842305263158, -90.58845955855855],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_b18e1eed47c8fcd864c95972e2698835 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9ed8e257fd1456535b944693e398c455 = $(`<div id="html_9ed8e257fd1456535b944693e398c455" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 71.32 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_b18e1eed47c8fcd864c95972e2698835.setContent(html_9ed8e257fd1456535b944693e398c455);
+            
+        
+
+        circle_marker_8b9ffeae0b1de6c82f6c89ea2f135091.bindPopup(popup_b18e1eed47c8fcd864c95972e2698835)
+        ;
+
+        
+    
+    
+            var circle_marker_1199e96e7873318102a15b8095ae81b9 = L.circleMarker(
+                [14.42842305263158, -90.58733216216216],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_d60239a38b45413683ae46ff7ab2b756 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2dca24f6997fecb9c13277905b2dbfd4 = $(`<div id="html_2dca24f6997fecb9c13277905b2dbfd4" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.9%<br>             Clorofila-a: 62.92 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_d60239a38b45413683ae46ff7ab2b756.setContent(html_2dca24f6997fecb9c13277905b2dbfd4);
+            
+        
+
+        circle_marker_1199e96e7873318102a15b8095ae81b9.bindPopup(popup_d60239a38b45413683ae46ff7ab2b756)
+        ;
+
+        
+    
+    
+            var circle_marker_1d59b38cd0dce453a2c8b9d05f99975f = L.circleMarker(
+                [14.42842305263158, -90.58394997297297],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_c2d383c9d732f1027e341a740d02b58b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1d1c6d9f3762d08bcde567cb01b2e222 = $(`<div id="html_1d1c6d9f3762d08bcde567cb01b2e222" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 96.4%<br>             Clorofila-a: 58.03 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_c2d383c9d732f1027e341a740d02b58b.setContent(html_1d1c6d9f3762d08bcde567cb01b2e222);
+            
+        
+
+        circle_marker_1d59b38cd0dce453a2c8b9d05f99975f.bindPopup(popup_c2d383c9d732f1027e341a740d02b58b)
+        ;
+
+        
+    
+    
+            var circle_marker_f6406d7b9a2ad9e8f92602ca1ba34a5f = L.circleMarker(
+                [14.42842305263158, -90.58282257657658],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_715f35b527f0b43a64d8b0d5122e5747 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8587ade203d577294b598be5870d7dff = $(`<div id="html_8587ade203d577294b598be5870d7dff" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.4%<br>             Clorofila-a: 56.26 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_715f35b527f0b43a64d8b0d5122e5747.setContent(html_8587ade203d577294b598be5870d7dff);
+            
+        
+
+        circle_marker_f6406d7b9a2ad9e8f92602ca1ba34a5f.bindPopup(popup_715f35b527f0b43a64d8b0d5122e5747)
+        ;
+
+        
+    
+    
+            var circle_marker_ab2b944655834eff586794730eac8730 = L.circleMarker(
+                [14.42842305263158, -90.58169518018018],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_77a72987604c762e66cd15ffaaae03a7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f1fa3489fafe724e1ef3b46a86875799 = $(`<div id="html_f1fa3489fafe724e1ef3b46a86875799" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 97.3%<br>             Clorofila-a: 59.78 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_77a72987604c762e66cd15ffaaae03a7.setContent(html_f1fa3489fafe724e1ef3b46a86875799);
+            
+        
+
+        circle_marker_ab2b944655834eff586794730eac8730.bindPopup(popup_77a72987604c762e66cd15ffaaae03a7)
+        ;
+
+        
+    
+    
+            var circle_marker_ceab25d72971eb2d3ff976c08491b54e = L.circleMarker(
+                [14.429494789473685, -90.59296914414413],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_ea210df2ef6eb31b0b20a8035639e5ac = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a0564deada44ef252aeec0c83354e296 = $(`<div id="html_a0564deada44ef252aeec0c83354e296" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 87.90 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_ea210df2ef6eb31b0b20a8035639e5ac.setContent(html_a0564deada44ef252aeec0c83354e296);
+            
+        
+
+        circle_marker_ceab25d72971eb2d3ff976c08491b54e.bindPopup(popup_ea210df2ef6eb31b0b20a8035639e5ac)
+        ;
+
+        
+    
+    
+            var circle_marker_5a598ac3e7a90bae3102a60097ca08e2 = L.circleMarker(
+                [14.429494789473685, -90.59184174774775],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_e4aa079550167203737968c887e0833a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8245614c3f536b6e7cb5b5adb3da438f = $(`<div id="html_8245614c3f536b6e7cb5b5adb3da438f" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 84.60 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_e4aa079550167203737968c887e0833a.setContent(html_8245614c3f536b6e7cb5b5adb3da438f);
+            
+        
+
+        circle_marker_5a598ac3e7a90bae3102a60097ca08e2.bindPopup(popup_e4aa079550167203737968c887e0833a)
+        ;
+
+        
+    
+    
+            var circle_marker_ba9e075777b6a718632503dd6d78e2e7 = L.circleMarker(
+                [14.429494789473685, -90.59071435135135],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_a7187be371c5e31bd9aa8cdd806a37fa = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_16aa9812c184a39b68121c1b941ec165 = $(`<div id="html_16aa9812c184a39b68121c1b941ec165" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 83.25 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_a7187be371c5e31bd9aa8cdd806a37fa.setContent(html_16aa9812c184a39b68121c1b941ec165);
+            
+        
+
+        circle_marker_ba9e075777b6a718632503dd6d78e2e7.bindPopup(popup_a7187be371c5e31bd9aa8cdd806a37fa)
+        ;
+
+        
+    
+    
+            var circle_marker_01e8d9151ad977d9efbdc9660221a374 = L.circleMarker(
+                [14.429494789473685, -90.58958695495495],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_ddc7ac884e7acbf974dac7107be8a906 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_36ddfd68f96adac98603f6b17a51a288 = $(`<div id="html_36ddfd68f96adac98603f6b17a51a288" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 76.89 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_ddc7ac884e7acbf974dac7107be8a906.setContent(html_36ddfd68f96adac98603f6b17a51a288);
+            
+        
+
+        circle_marker_01e8d9151ad977d9efbdc9660221a374.bindPopup(popup_ddc7ac884e7acbf974dac7107be8a906)
+        ;
+
+        
+    
+    
+            var circle_marker_bf5cdf2ea29dda5b7a48b56b39dc56bd = L.circleMarker(
+                [14.429494789473685, -90.58845955855855],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_e14b649059e40b0242b016d22be2e8d7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3fe47288f44ad37d05b4081f4559e780 = $(`<div id="html_3fe47288f44ad37d05b4081f4559e780" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.8%<br>             Clorofila-a: 69.93 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_e14b649059e40b0242b016d22be2e8d7.setContent(html_3fe47288f44ad37d05b4081f4559e780);
+            
+        
+
+        circle_marker_bf5cdf2ea29dda5b7a48b56b39dc56bd.bindPopup(popup_e14b649059e40b0242b016d22be2e8d7)
+        ;
+
+        
+    
+    
+            var circle_marker_c476d8724d4886ef8de751c04b5bbd12 = L.circleMarker(
+                [14.429494789473685, -90.58733216216216],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_0fcaaaf821ee82c7bf0a8cb0f53276d2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b0a3eb5a698fad99f5caec9dbfcd5563 = $(`<div id="html_b0a3eb5a698fad99f5caec9dbfcd5563" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.9%<br>             Clorofila-a: 66.63 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_0fcaaaf821ee82c7bf0a8cb0f53276d2.setContent(html_b0a3eb5a698fad99f5caec9dbfcd5563);
+            
+        
+
+        circle_marker_c476d8724d4886ef8de751c04b5bbd12.bindPopup(popup_0fcaaaf821ee82c7bf0a8cb0f53276d2)
+        ;
+
+        
+    
+    
+            var circle_marker_3950a42dce4b3506738e01ef9b9d1ca6 = L.circleMarker(
+                [14.429494789473685, -90.58169518018018],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_8b2c5061a68496aaeef706d271f3f627 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_58ea146dadcb744eb45c3bacd2a5c5d7 = $(`<div id="html_58ea146dadcb744eb45c3bacd2a5c5d7" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 96.1%<br>             Clorofila-a: 56.22 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_8b2c5061a68496aaeef706d271f3f627.setContent(html_58ea146dadcb744eb45c3bacd2a5c5d7);
+            
+        
+
+        circle_marker_3950a42dce4b3506738e01ef9b9d1ca6.bindPopup(popup_8b2c5061a68496aaeef706d271f3f627)
+        ;
+
+        
+    
+    
+            var circle_marker_ea190bbf19815cae77a4d6a8c8c99b0d = L.circleMarker(
+                [14.43056652631579, -90.59184174774775],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_e38b7bb9a86f7e14b6a9aa7fac3accf1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1b75189b88c8e471bc428db6fa4f951a = $(`<div id="html_1b75189b88c8e471bc428db6fa4f951a" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 86.73 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_e38b7bb9a86f7e14b6a9aa7fac3accf1.setContent(html_1b75189b88c8e471bc428db6fa4f951a);
+            
+        
+
+        circle_marker_ea190bbf19815cae77a4d6a8c8c99b0d.bindPopup(popup_e38b7bb9a86f7e14b6a9aa7fac3accf1)
+        ;
+
+        
+    
+    
+            var circle_marker_bf0b031bd9267084d92a40e40c1996eb = L.circleMarker(
+                [14.43056652631579, -90.59071435135135],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_9046987fe3098ec7df9bda12e6828ce3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ca7195eea18ca2956e3c1c132f660c55 = $(`<div id="html_ca7195eea18ca2956e3c1c132f660c55" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 84.13 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_9046987fe3098ec7df9bda12e6828ce3.setContent(html_ca7195eea18ca2956e3c1c132f660c55);
+            
+        
+
+        circle_marker_bf0b031bd9267084d92a40e40c1996eb.bindPopup(popup_9046987fe3098ec7df9bda12e6828ce3)
+        ;
+
+        
+    
+    
+            var circle_marker_21d8b7603520c13e4aa783f1b647bc8f = L.circleMarker(
+                [14.43056652631579, -90.58958695495495],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_e72c2fdae73e961f7bafc044b35509b3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ab4f595916728ed732f595ef23b15f17 = $(`<div id="html_ab4f595916728ed732f595ef23b15f17" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 100.0%<br>             Clorofila-a: 78.74 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_e72c2fdae73e961f7bafc044b35509b3.setContent(html_ab4f595916728ed732f595ef23b15f17);
+            
+        
+
+        circle_marker_21d8b7603520c13e4aa783f1b647bc8f.bindPopup(popup_e72c2fdae73e961f7bafc044b35509b3)
+        ;
+
+        
+    
+    
+            var circle_marker_fdd685135bd49caf9fbe5bb5c5818892 = L.circleMarker(
+                [14.43056652631579, -90.58845955855855],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_c91f620f9883ca79d17e2c34b1e1c54e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8e2a7d7ef13986d995244d2b2abf9224 = $(`<div id="html_8e2a7d7ef13986d995244d2b2abf9224" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.9%<br>             Clorofila-a: 70.76 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_c91f620f9883ca79d17e2c34b1e1c54e.setContent(html_8e2a7d7ef13986d995244d2b2abf9224);
+            
+        
+
+        circle_marker_fdd685135bd49caf9fbe5bb5c5818892.bindPopup(popup_c91f620f9883ca79d17e2c34b1e1c54e)
+        ;
+
+        
+    
+    
+            var circle_marker_fe72f6a73cb1918674b6d3ddf912fdbd = L.circleMarker(
+                [14.43056652631579, -90.58733216216216],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_067a78da86664ac9735a5074adb709ce = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_32d7264fedb5635e6380e9a2972fbbd7 = $(`<div id="html_32d7264fedb5635e6380e9a2972fbbd7" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 98.3%<br>             Clorofila-a: 57.50 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_067a78da86664ac9735a5074adb709ce.setContent(html_32d7264fedb5635e6380e9a2972fbbd7);
+            
+        
+
+        circle_marker_fe72f6a73cb1918674b6d3ddf912fdbd.bindPopup(popup_067a78da86664ac9735a5074adb709ce)
+        ;
+
+        
+    
+    
+            var circle_marker_6fff1760dc98e08a6692da5fd0a7b933 = L.circleMarker(
+                [14.431638263157895, -90.59071435135135],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_1d4ed1cb2cb3edfd0b4b26b8655154ec = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fe16d8908ca50672de74ebacb14846a0 = $(`<div id="html_fe16d8908ca50672de74ebacb14846a0" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.0%<br>             Clorofila-a: 73.24 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_1d4ed1cb2cb3edfd0b4b26b8655154ec.setContent(html_fe16d8908ca50672de74ebacb14846a0);
+            
+        
+
+        circle_marker_6fff1760dc98e08a6692da5fd0a7b933.bindPopup(popup_1d4ed1cb2cb3edfd0b4b26b8655154ec)
+        ;
+
+        
+    
+    
+            var circle_marker_973dc61fadab24bad31f0687cf6591d2 = L.circleMarker(
+                [14.431638263157895, -90.58958695495495],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_2ef835233cedd16de8a917eb3bc44553 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_df9dcfab3425b4144585c58270de17b9 = $(`<div id="html_df9dcfab3425b4144585c58270de17b9" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.4%<br>             Clorofila-a: 71.59 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_2ef835233cedd16de8a917eb3bc44553.setContent(html_df9dcfab3425b4144585c58270de17b9);
+            
+        
+
+        circle_marker_973dc61fadab24bad31f0687cf6591d2.bindPopup(popup_2ef835233cedd16de8a917eb3bc44553)
+        ;
+
+        
+    
+    
+            var circle_marker_415846ddcaa871a6b02bfaf761d53d6e = L.circleMarker(
+                [14.431638263157895, -90.58845955855855],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_a73ed12fa0283ab715934e461ca5c33b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c54c2aa1951b8249f89ddab7fee6ed6a = $(`<div id="html_c54c2aa1951b8249f89ddab7fee6ed6a" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.4%<br>             Clorofila-a: 67.09 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_a73ed12fa0283ab715934e461ca5c33b.setContent(html_c54c2aa1951b8249f89ddab7fee6ed6a);
+            
+        
+
+        circle_marker_415846ddcaa871a6b02bfaf761d53d6e.bindPopup(popup_a73ed12fa0283ab715934e461ca5c33b)
+        ;
+
+        
+    
+    
+            var circle_marker_be5b4624cb7e2f8ca2825ca7930ab86d = L.circleMarker(
+                [14.43271, -90.58958695495495],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_c32c570403a262c3c585273a2b79042d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d5d4d4b8120a22760f46cb94b7c4ce4c = $(`<div id="html_d5d4d4b8120a22760f46cb94b7c4ce4c" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 98.4%<br>             Clorofila-a: 61.36 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_c32c570403a262c3c585273a2b79042d.setContent(html_d5d4d4b8120a22760f46cb94b7c4ce4c);
+            
+        
+
+        circle_marker_be5b4624cb7e2f8ca2825ca7930ab86d.bindPopup(popup_c32c570403a262c3c585273a2b79042d)
+        ;
+
+        
+    
+    
+            var circle_marker_9e659eab2ae882c4a8e0782d68e3dd72 = L.circleMarker(
+                [14.43271, -90.58845955855855],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_16dcabbd384ec64ffc5778e2597ce8c9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_159adcaca36ad27c04315dec318e9614 = $(`<div id="html_159adcaca36ad27c04315dec318e9614" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.0%<br>             Clorofila-a: 62.06 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_16dcabbd384ec64ffc5778e2597ce8c9.setContent(html_159adcaca36ad27c04315dec318e9614);
+            
+        
+
+        circle_marker_9e659eab2ae882c4a8e0782d68e3dd72.bindPopup(popup_16dcabbd384ec64ffc5778e2597ce8c9)
+        ;
+
+        
+    
+    
+            var circle_marker_d8c6e17f59a106c782adc431c4200b83 = L.circleMarker(
+                [14.43271, -90.58733216216216],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_520ca1c9effc35997254a0715a84dc24 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_365099577524a460706b1d1db64a2584 = $(`<div id="html_365099577524a460706b1d1db64a2584" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 99.0%<br>             Clorofila-a: 56.84 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_520ca1c9effc35997254a0715a84dc24.setContent(html_365099577524a460706b1d1db64a2584);
+            
+        
+
+        circle_marker_d8c6e17f59a106c782adc431c4200b83.bindPopup(popup_520ca1c9effc35997254a0715a84dc24)
+        ;
+
+        
+    
+    
+            var circle_marker_cf8fc719ae624550d52d1da2d70c1be9 = L.circleMarker(
+                [14.433781736842105, -90.58733216216216],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_c2d6f4e9d99f01708692fe7046ea6b46 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2532d76ad0aa6d3353922aee5c1112f7 = $(`<div id="html_2532d76ad0aa6d3353922aee5c1112f7" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 97.8%<br>             Clorofila-a: 56.39 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_c2d6f4e9d99f01708692fe7046ea6b46.setContent(html_2532d76ad0aa6d3353922aee5c1112f7);
+            
+        
+
+        circle_marker_cf8fc719ae624550d52d1da2d70c1be9.bindPopup(popup_c2d6f4e9d99f01708692fe7046ea6b46)
+        ;
+
+        
+    
+    
+            var circle_marker_e0eb29072791d156f2773f6e7962efe5 = L.circleMarker(
+                [14.43485347368421, -90.58282257657658],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_2bd18e477bbf661c13b20c8c790d0e3e);
+        
+    
+        var popup_d3affc3602f4f03074a347884fcebf6b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7aebb5e5ab7f5d425e0bf0a9fffef30c = $(`<div id="html_7aebb5e5ab7f5d425e0bf0a9fffef30c" style="width: 100.0%; height: 100.0%;">             <b>Alto Riesgo de Cianobacteria</b><br>             Probabilidad: 91.2%<br>             Clorofila-a: 56.95 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_d3affc3602f4f03074a347884fcebf6b.setContent(html_7aebb5e5ab7f5d425e0bf0a9fffef30c);
+            
+        
+
+        circle_marker_e0eb29072791d156f2773f6e7962efe5.bindPopup(popup_d3affc3602f4f03074a347884fcebf6b)
+        ;
+
+        
+    
+    
+            feature_group_2bd18e477bbf661c13b20c8c790d0e3e.addTo(map_5401c468a5d94f32a8e3c882f6230d45);
+        
+    
+            var feature_group_675dce4da3397dfe35f7bf0964bac262 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_983eace4d74d846ead16677fab4a8d4a = L.circleMarker(
+                [14.418777421052631, -90.5738034054054],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 1}
+            ).addTo(feature_group_675dce4da3397dfe35f7bf0964bac262);
+        
+    
+        var popup_6c2a9da26f3355e431a36e95937712fb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6a4633465d4eecc2d64318d20ccc7998 = $(`<div id="html_6a4633465d4eecc2d64318d20ccc7998" style="width: 100.0%; height: 100.0%;">             <b>Riesgo Moderado de Cianobacteria</b><br>             Probabilidad: 60.9%<br>             Clorofila-a: 22.61 μg/L<br>             Fecha: 2024-06-29             </div>`)[0];
+                popup_6c2a9da26f3355e431a36e95937712fb.setContent(html_6a4633465d4eecc2d64318d20ccc7998);
+            
+        
+
+        circle_marker_983eace4d74d846ead16677fab4a8d4a.bindPopup(popup_6c2a9da26f3355e431a36e95937712fb)
+        ;
+
+        
+    
+    
+            feature_group_675dce4da3397dfe35f7bf0964bac262.addTo(map_5401c468a5d94f32a8e3c882f6230d45);
+        
+    
+            var layer_control_031e34aaae2dc3b028495d688daa75c7_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_aa9099ab1a09874e8d657194eb2abe65,
+                    "Satellite" : tile_layer_fad9fab17261527d64d6123f91b4ab35,
+                },
+                overlays :  {
+                    "macro_element_4b91bd327465fdf6074b1acc79b4ecd7" : heat_map_4b91bd327465fdf6074b1acc79b4ecd7,
+                    "Alto Riesgo (\u003e70%)" : feature_group_2bd18e477bbf661c13b20c8c790d0e3e,
+                    "Riesgo Moderado (50-70%)" : feature_group_675dce4da3397dfe35f7bf0964bac262,
+                },
+            };
+            let layer_control_031e34aaae2dc3b028495d688daa75c7 = L.control.layers(
+                layer_control_031e34aaae2dc3b028495d688daa75c7_layers.base_layers,
+                layer_control_031e34aaae2dc3b028495d688daa75c7_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_5401c468a5d94f32a8e3c882f6230d45);
+
+        
+</script>
+</html>

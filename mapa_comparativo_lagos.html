@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_f7e332d0d6946148e4723672a4d93759 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+    <h3 align="center" style="font-size:18px; color: #2F4F4F; margin-top:10px;">
+    <b>Comparación de Predicciones - Lagos de Guatemala</b><br>
+    <span style="font-size:12px;">Riesgo de Cianobacteria - Próximos 60 días</span>
+    </h3>
+    
+    
+            <div class="folium-map" id="map_f7e332d0d6946148e4723672a4d93759" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_f7e332d0d6946148e4723672a4d93759 = L.map(
+                "map_f7e332d0d6946148e4723672a4d93759",
+                {
+                    center: [14.56298125, -90.88718874999999],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 10,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f54c730ec5968a7f4e031c71c6615126 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_f54c730ec5968a7f4e031c71c6615126.addTo(map_f7e332d0d6946148e4723672a4d93759);
+        
+    
+            var marker_92c547d3e76ef9adc5db4f6b7aad3046 = L.marker(
+                [14.6728895, -91.198883],
+                {
+}
+            ).addTo(map_f7e332d0d6946148e4723672a4d93759);
+        
+    
+            var icon_d38cf78cfc095e45011019e1635fb09c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "tint",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1f8ec382898dd56ef8c8373fb420457b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_78bc2c28d20dad907499dc0802c86f9f = $(`<div id="html_78bc2c28d20dad907499dc0802c86f9f" style="width: 100.0%; height: 100.0%;">             <b>Lago Atitlán</b><br>             Probabilidad promedio: 0.1%<br>             Floraciones esperadas: 0<br>             Estado: ✅ Bajo riesgo             </div>`)[0];
+                popup_1f8ec382898dd56ef8c8373fb420457b.setContent(html_78bc2c28d20dad907499dc0802c86f9f);
+            
+        
+
+        marker_92c547d3e76ef9adc5db4f6b7aad3046.bindPopup(popup_1f8ec382898dd56ef8c8373fb420457b)
+        ;
+
+        
+    
+    
+                marker_92c547d3e76ef9adc5db4f6b7aad3046.setIcon(icon_d38cf78cfc095e45011019e1635fb09c);
+            
+    
+            var marker_8f5f198b7cdc700b304846cc4464be45 = L.marker(
+                [14.453073, -90.57549449999999],
+                {
+}
+            ).addTo(map_f7e332d0d6946148e4723672a4d93759);
+        
+    
+            var icon_fac90aae67b321d4f03241447ee90e15 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "warning-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fd018e44fa2b46db396eebd0572f3f2a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c0bc755bee6f5aa8466366fa002d6e46 = $(`<div id="html_c0bc755bee6f5aa8466366fa002d6e46" style="width: 100.0%; height: 100.0%;">             <b>Lago Amatitlán</b><br>             Probabilidad promedio: 49.2%<br>             Floraciones esperadas: 0<br>             Estado: ✅ Bajo riesgo             </div>`)[0];
+                popup_fd018e44fa2b46db396eebd0572f3f2a.setContent(html_c0bc755bee6f5aa8466366fa002d6e46);
+            
+        
+
+        marker_8f5f198b7cdc700b304846cc4464be45.bindPopup(popup_fd018e44fa2b46db396eebd0572f3f2a)
+        ;
+
+        
+    
+    
+                marker_8f5f198b7cdc700b304846cc4464be45.setIcon(icon_fac90aae67b321d4f03241447ee90e15);
+            
+</script>
+</html>
